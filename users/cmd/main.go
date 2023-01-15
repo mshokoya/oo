@@ -3,6 +3,7 @@ package main
 import (
 	"ecom-users/internal/config"
 	"flag"
+	"fmt"
 )
 
 type EnvVars struct {
@@ -19,8 +20,7 @@ func main() {
 
 	err := config.LoadEnvVars(*envPath, &env)
 	if err != nil {
+		fmt.Println("Env Error")
 		panic(err.Error())
 	}
-
-
 }
