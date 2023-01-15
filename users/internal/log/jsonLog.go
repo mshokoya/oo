@@ -9,17 +9,17 @@ import (
 	"time"
 )
 
+
 type Logger struct {
-	output io.Writer
+	out      io.Writer
 	minLevel Level
-	mu sync.Mutex
+	mu       sync.Mutex
 }
 
-
-func New(out io.Writer, min Level) *Logger {
+func New(out io.Writer, minLevel Level) *Logger {
 	return &Logger{
-		output: out,
-		minLevel: min,
+		out:      out,
+		minLevel: minLevel,
 	}
 }
 
@@ -36,21 +36,25 @@ func (l *Logger) PrintFatal(err error, properties map[string]string) {
 	os.Exit(1)
 }
 
-func (l *Logger) print(level Level, message string, properties map[string]string ) (int, error) {
+func (l *Logger) Write(message []byte) (n int, err error) {
+	return l.print(LevelError, string(message), nil)
+}
+
+func (l *Logger) print(level Level, message string, properties map[string]string) (int, error) {
 	if level < l.minLevel {
 		return 0, nil
 	}
 
 	aux := struct {
-		Level string `json:"level"`
-		Time string `json:"time"`
-		Message string `json:"message"`
+		Level      string            `json:"level"`
+		Time       string            `json:"time"`
+		Message    string            `json:"message"`
 		Properties map[string]string `json:"properties,omitempty"`
-		Trace string `json:"trace,omitempty"`
+		Trace      string            `json:"trace,omitempty"`
 	}{
-		Level: level.String(),
-		Time: time.Now().UTC().Format(time.RFC3339),
-		Message: message,
+		Level:      level.String(),
+		Time:       time.Now().UTC().Format(time.RFC3339),
+		Message:    message,
 		Properties: properties,
 	}
 
@@ -68,5 +72,5 @@ func (l *Logger) print(level Level, message string, properties map[string]string
 	l.mu.Lock()
 	defer l.mu.Unlock()
 
-	return l.output.Write(append(line, '\n'))
+	return l.out.Write(append(line, '\n'))
 }
