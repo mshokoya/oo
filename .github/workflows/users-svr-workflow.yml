@@ -1,9 +1,9 @@
 name: Users Service Command
 
 on: 
-  # push:
-  #   paths:
-  #     - 'users/**'
+ push:
+  paths:
+   - 'users/**'
   #     - 'authentication/**'
   #     - 'gateway/**'
   #     - 'order/**'
