@@ -18,6 +18,8 @@ func main() {
 
 	flag.Parse()
 
+	fmt.Println("test")
+
 	err := config.LoadEnvVars(*envPath, &env)
 	if err != nil {
 		fmt.Println("Env Error")
