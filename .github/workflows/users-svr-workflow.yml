@@ -2,8 +2,6 @@ name: Users Service Command
 
 on: 
   push:
-    branches:
-      - '*'
     paths:
       - 'users/**'
       - 'authentication/**'
@@ -60,4 +58,3 @@ jobs:
           golint .
       - name: Run testing
         run: cd test && go test -v
-      
