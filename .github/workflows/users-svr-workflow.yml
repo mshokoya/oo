@@ -1,15 +1,17 @@
 name: Users Service Command
 
 on: 
- push:
-  paths:
-   - 'users/**'
-  #     - 'authentication/**'
-  #     - 'gateway/**'
-  #     - 'order/**'
-  #     - 'pkg/**'
-  #     - 'products/**'
-  #     - 'ratings/**'
+  push:
+    branches:
+      - '*'
+    paths:
+      - 'users/**'
+      - 'authentication/**'
+      - 'gateway/**'
+      - 'order/**'
+      - 'pkg/**'
+      - 'products/**'
+      - 'ratings/**'
 
 jobs:
   changes:
