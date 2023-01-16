@@ -2,13 +2,13 @@ name: Users Service Command
 on: 
   push:
     paths:
-      - users
-      - authentication
-      - gateway
-      - order
-      - pkg
-      - products
-      - ratings
+      - 'users/**'
+      - 'authentication/**'
+      - 'gateway/**'
+      - 'order/**'
+      - 'pkg/**'
+      - 'products/**'
+      - 'ratings/**'
 
 jobs:
   changes:
