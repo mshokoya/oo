@@ -33,6 +33,7 @@ jobs:
     name: ${{matrix.name}} folder commit 
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         name: ${{ fromJSON(needs.changes.outputs.names) }}
     defaults:
