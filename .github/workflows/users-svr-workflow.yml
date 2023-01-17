@@ -34,4 +34,4 @@ jobs:
     steps:
       - name: testa
         run: |
-          echo ${{ needs.changes.outputs.names[0] }}
+          echo this is it ${{ needs.changes.outputs.names[0] }}
