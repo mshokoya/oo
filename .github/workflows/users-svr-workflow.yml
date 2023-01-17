@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: testa
         run: |
-          if [[ ${{ needs.changes.outputs.names }} == ["users"] ]]; then
+          if [[ ${{ needs.changes.outputs.names }} == "["users"]" ]]; then
             echo "TRUUU DOOOO"
           else
             echo "NAHHH"
