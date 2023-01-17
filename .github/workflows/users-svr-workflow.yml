@@ -19,11 +19,11 @@ jobs:
       names: ${{ steps.filter.outputs.changes }}
     steps:
     - name: Cl1
-      uses: ls
+      run: ls
     - name: Checkout
       uses: actions/checkout@v3
     - name: Cl2
-      uses: ls
+      run: ls
     - name: Detect Changes
       uses: dorny/paths-filter@v2
       id: filter
@@ -47,11 +47,11 @@ jobs:
         working-directory: ${{ matrix.name }}
     steps:
       - name: Cl1
-        uses: ls
+        run: ls
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cl2
-        uses: ls
+        run: ls
       - name: Setup Go
         uses: actions/setup-go@v3
         with:

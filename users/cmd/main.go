@@ -18,7 +18,7 @@ func main() {
 
 	flag.Parse()
 
-	fmt.Println("test dsdds3")
+	fmt.Println("test dsddsdsad3")
 
 	err := config.LoadEnvVars(*envPath, &env)
 	if err != nil {
