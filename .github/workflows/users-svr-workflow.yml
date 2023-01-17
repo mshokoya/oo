@@ -43,7 +43,6 @@ jobs:
         name: ${{ fromJSON(needs.changes.outputs.names) }}
     defaults:
       run:
-        shell: bash
         working-directory: ${{ matrix.name }}
     steps:
       - name: Cl1
