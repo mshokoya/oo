@@ -29,6 +29,9 @@ jobs:
 
   deploy:
     needs: changes
+     steps:
+      - name: testa
+        uses: echo ${{ fromJSON(needs.changes.outputs.names) }}
     if: ${{ needs.changes.outputs.names == 'users' }}
     name: ${{matrix.name}} folder commit 
     runs-on: ubuntu-latest
