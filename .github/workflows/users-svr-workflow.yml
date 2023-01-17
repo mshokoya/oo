@@ -42,5 +42,4 @@ jobs:
     steps:
       - name: testa
         run: |
-          echo json ${{ fromJSON(needs.changes.outputs.names }}
-          echo norm ${{ needs.changes.outputs.names[0] }}
+          echo ${{ needs.changes.outputs.names[0] }}
