@@ -29,7 +29,7 @@ jobs:
 
   deploy:
     needs: changes
-    if: ${{ needs.changes.outputs.names == "["users"]" }}
+    if: ${{ needs.changes.outputs.names == '["users"]' }}
     name: ${{matrix.name}} folder commit 
     runs-on: ubuntu-latest
     strategy:
