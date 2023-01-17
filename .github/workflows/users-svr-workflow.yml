@@ -31,16 +31,8 @@ jobs:
     needs: changes
     name: folder commit 
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        name: ${{ fromJSON(needs.changes.outputs.names) }}
-    defaults:
-      run:
-        shell: bash
-        working-directory: ${{ matrix.name }}
     steps:
       - name: testa
         run: |
-          echo ${{ fromJSON(needs.changes.outputs) }}
-          echo ${{ needs.changes.outputs }}
+          echo ${{ fromJSON(needs.changes.outputs.names) }}
+          echo ${{ needs.changes.outputs.names }}
