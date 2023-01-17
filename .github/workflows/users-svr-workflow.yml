@@ -34,4 +34,11 @@ jobs:
     steps:
       - name: testa
         run: |
-          echo ${{ fromJSON(needs.changes.outputs.names[0].name) }}
+          if [[ ${{ fromJSON(needs.changes.outputs.names) }} == "users" ]]; then
+            echo "TRUUU"
+          if [[ ${{ fromJSON(needs.changes.outputs.names) }} == ["users"] ]]; then
+            echo "TRUUU 222"
+          if [[ ${{ fromJSON(needs.changes.outputs.names) }} == '["users"]' ]]; then
+            echo "TRUUU 3333"
+
+# echo ${{ fromJSON(needs.changes.outputs.names) }}
