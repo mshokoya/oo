@@ -29,20 +29,12 @@ jobs:
 
   deploy:
     needs: changes
-    # if: ${{ needs.changes.outputs.names == 'users' }}
-    name: ${{matrix.name}} folder commit 
-    # runs-on: ubuntu-latest
-    # strategy:
-    #   max-parallel: 1
-    #   matrix:
-    #     name: ${{ fromJSON(needs.changes.outputs.names) }}
-    # defaults:
-    #   run:
-    #     shell: bash
-    #     working-directory: ${{ matrix.name }}
+    name: folder commit 
     steps:
       - name: testa
-        uses: echo ${{ fromJSON(needs.changes.outputs.names) }}
+        run: |
+          echo ${{ fromJSON(needs.changes.outputs.names) }}
+          echo ${{ needs.changes.outputs.names }}
       # - name: Checkout
       #   uses: actions/checkout@v3
       # - name: Setup Go
