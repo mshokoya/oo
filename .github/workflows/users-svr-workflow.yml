@@ -29,7 +29,7 @@ jobs:
 
   deploy:
     needs: changes
-     steps:
+    steps:
       - name: testa
         uses: echo ${{ fromJSON(needs.changes.outputs.names) }}
     if: ${{ needs.changes.outputs.names == 'users' }}
