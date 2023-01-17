@@ -39,7 +39,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        # working-directory: oo/${{ matrix.name }}
+        working-directory: ../${{ matrix.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
