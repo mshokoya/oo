@@ -20,6 +20,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        path: /home/runner/work/oo/users        
     - name: Detect Changes
       uses: dorny/paths-filter@v2
       id: filter
@@ -44,6 +46,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          path: /home/runner/work/oo/users  
       - name: Setup Go
         uses: actions/setup-go@v3
         with:
