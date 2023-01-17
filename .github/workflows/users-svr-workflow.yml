@@ -34,15 +34,15 @@ jobs:
     steps:
       - name: testa
         run: |
-          if [[ ${{ needs.changes.outputs.names }} == "users" ]]; then
-            echo "TRUUU"
-          fi
-          if [[ ${{ needs.changes.outputs.names }} == ["users"] ]]; then
-            echo "TRUUU 222"
-          fi
-          if [[ ${{ needs.changes.outputs.names }} == '["users"]' ]]; then
-            echo "TRUUU 3333"
-          fi
+# if [[ ${{ needs.changes.outputs.names }} == "users" ]]; then
+#   echo "TRUUU"
+# fi
+# if [[ ${{ needs.changes.outputs.names }} == ["users"] ]]; then
+#   echo "TRUUU 222"
+# fi
+# if [[ ${{ needs.changes.outputs.names }} == '["users"]' ]]; then
+#   echo "TRUUU 3333"
+# fi
           if [[ ${{ needs.changes.outputs.names[0] }} == "users" ]]; then
             echo "TRUUU DOOOO"
           fi
