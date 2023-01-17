@@ -29,7 +29,6 @@ jobs:
 
   deploy:
     needs: changes
-    steps:
     # if: ${{ needs.changes.outputs.names == 'users' }}
     name: ${{matrix.name}} folder commit 
     # runs-on: ubuntu-latest
