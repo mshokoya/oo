@@ -36,6 +36,8 @@ jobs:
         run: |
           if [[ ${{ needs.changes.outputs.names }} == ["users"] ]]; then
             echo "TRUUU DOOOO"
+          else
+            echo "NAHHH"
           fi
 
 # echo ${{ fromJSON(needs.changes.outputs.names) }}
