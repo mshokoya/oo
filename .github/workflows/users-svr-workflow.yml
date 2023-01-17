@@ -30,35 +30,35 @@ jobs:
   deploy:
     needs: changes
     steps:
+    # if: ${{ needs.changes.outputs.names == 'users' }}
+    name: ${{matrix.name}} folder commit 
+    # runs-on: ubuntu-latest
+    # strategy:
+    #   max-parallel: 1
+    #   matrix:
+    #     name: ${{ fromJSON(needs.changes.outputs.names) }}
+    # defaults:
+    #   run:
+    #     shell: bash
+    #     working-directory: ${{ matrix.name }}
+    steps:
       - name: testa
         uses: echo ${{ fromJSON(needs.changes.outputs.names) }}
-    if: ${{ needs.changes.outputs.names == 'users' }}
-    name: ${{matrix.name}} folder commit 
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        name: ${{ fromJSON(needs.changes.outputs.names) }}
-    defaults:
-      run:
-        shell: bash
-        working-directory: ${{ matrix.name }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: ‘1.19.2’
-      - name: Install dependencies
-        run: |
-          go version
-          go get -u golang.org/x/lint/golint
-      - name: Run build
-        run: go build .
-      - name: Run vet & lint
-        run: |
-          go vet .
-          golint .
-      - name: Run testing
-        run: cd test && go test -v
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+      # - name: Setup Go
+      #   uses: actions/setup-go@v3
+      #   with:
+      #     go-version: ‘1.19.2’
+      # - name: Install dependencies
+      #   run: |
+      #     go version
+      #     go get -u golang.org/x/lint/golint
+      # - name: Run build
+      #   run: go build .
+      # - name: Run vet & lint
+      #   run: |
+      #     go vet .
+      #     golint .
+      # - name: Run testing
+      #   run: cd test && go test -v
