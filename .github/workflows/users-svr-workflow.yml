@@ -43,10 +43,9 @@ jobs:
         name: ${{ fromJSON(needs.changes.outputs.names) }}
     defaults:
       run:
+        shell: bash
         working-directory: ${{ matrix.name }}
     steps:
-      - name: Cl1
-        run: ls
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cl2
