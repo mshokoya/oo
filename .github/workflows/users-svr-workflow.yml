@@ -18,12 +18,8 @@ jobs:
     outputs:
       names: ${{ steps.filter.outputs.changes }}
     steps:
-    - name: Cl1
-      run: ls
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Cl2
-      run: ls
     - name: Detect Changes
       uses: dorny/paths-filter@v2
       id: filter
@@ -48,8 +44,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cl2
-        run: ls
       - name: Setup Go
         uses: actions/setup-go@v3
         with:
@@ -59,7 +53,7 @@ jobs:
           go version
           go get -u golang.org/x/lint/golint
       - name: Run build
-        run: go build .
+        run: go build ./cmd/main.go
       - name: Run vet & lint
         run: |
           go vet .
