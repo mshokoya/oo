@@ -2,27 +2,22 @@ package main
 
 import (
 	"ecom-users/internal/config"
+	"ecom-users/internal/jsonLog"
 	"flag"
 	"fmt"
+	"os"
 )
-
-type EnvVars struct {
-	MONGO_URI string
-	PORT int
-}
 
 
 func main() {
-	var env EnvVars
+	var env config.Config
 	envPath := flag.String("env", "internal", "Path to env file")
-
-	flag.Parse()
-
-	fmt.Println("test dsddsdsaddhgvg3")
 
 	err := config.LoadEnvVars(*envPath, &env)
 	if err != nil {
 		fmt.Println("Env Error")
 		panic(err.Error())
 	}
+
+	logger := jsonLog.New(os.Stdout, jsonLog.LevelInfo)
 }
