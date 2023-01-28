@@ -1,13 +1,15 @@
 package main
 
 import (
+	"ecom-users/internal/application"
 	"ecom-users/internal/config"
-	"ecom-users/internal/jsonLog"
+	"ecom-users/internal/logger"
+	"ecom-users/internal/repository"
+	"ecom-users/internal/server/http"
 	"flag"
 	"fmt"
 	"os"
 )
-
 
 func main() {
 	var env config.Config
@@ -19,5 +21,16 @@ func main() {
 		panic(err.Error())
 	}
 
-	logger := jsonLog.New(os.Stdout, jsonLog.LevelInfo)
+	logger := logger.New(os.Stdout, logger.LevelInfo)
+	db, err := repository.OpenDB(&env)
+
+	dbModels := repository.NewModels(db)
+
+	app := &application.Application{
+		Logger: logger,
+		Models: dbModels,
+		Config: &env,
+	}
+
+	srv := http.New(app)
 }

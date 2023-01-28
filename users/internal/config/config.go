@@ -4,9 +4,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Application struct {
-	logger *jsonLog
-}
 
 type Config struct {
 	MONGO_URI string

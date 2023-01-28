@@ -1,62 +1,62 @@
-name: Users Service Command
+# name: Users Service Command
 
-on: 
-  push:
-    paths:
-      - 'users/**'
-      - 'authentication/**'
-      - 'gateway/**'
-      - 'order/**'
-      - 'pkg/**'
-      - 'products/**'
-      - 'ratings/**'
+# on: 
+#   push:
+#     paths:
+#       - 'users/**'
+#       - 'authentication/**'
+#       - 'gateway/**'
+#       - 'order/**'
+#       - 'pkg/**'
+#       - 'products/**'
+#       - 'ratings/**'
 
-jobs:
-  changes:
-    name: Detect Changes in folder
-    runs-on: ubuntu-latest
-    outputs:
-      names: ${{ steps.filter.outputs.changes }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Detect Changes
-      uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          users:
-            - 'users/**'
+# jobs:
+#   changes:
+#     name: Detect Changes in folder
+#     runs-on: ubuntu-latest
+#     outputs:
+#       names: ${{ steps.filter.outputs.changes }}
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v3
+#     - name: Detect Changes
+#       uses: dorny/paths-filter@v2
+#       id: filter
+#       with:
+#         filters: |
+#           users:
+#             - 'users/**'
 
-  deploy:
-    needs: changes
-    if: ${{ needs.changes.outputs.names == '["users"]' }}
-    name: ${{matrix.name}} folder commit 
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 1
-      matrix:
-        name: ${{ fromJSON(needs.changes.outputs.names) }}
-    defaults:
-      run:
-        shell: bash
-        working-directory: ${{ matrix.name }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: '1.19.2'
-      - name: Install dependencies
-        run: |
-          go version
-          go get -u golang.org/x/lint/golint
-      - name: Run build
-        run: go build ./cmd/*.go
-      - name: Run vet & lint
-        run: |
-          go vet ./cmd/*.go
-          golint .
-      - name: Run testing
-        run: cd test && go test -v
+#   deploy:
+#     needs: changes
+#     if: ${{ needs.changes.outputs.names == '["users"]' }}
+#     name: ${{matrix.name}} folder commit 
+#     runs-on: ubuntu-latest
+#     strategy:
+#       max-parallel: 1
+#       matrix:
+#         name: ${{ fromJSON(needs.changes.outputs.names) }}
+#     defaults:
+#       run:
+#         shell: bash
+#         working-directory: ${{ matrix.name }}
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Setup Go
+#         uses: actions/setup-go@v3
+#         with:
+#           go-version: '1.19.2'
+#       - name: Install dependencies
+#         run: |
+#           go version
+#           go get -u golang.org/x/lint/golint
+#       - name: Run build
+#         run: go build ./cmd/*.go
+#       - name: Run vet & lint
+#         run: |
+#           go vet ./cmd/*.go
+#           golint .
+#       - name: Run testing
+#         run: cd test && go test -v
