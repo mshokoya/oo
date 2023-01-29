@@ -1,7 +1,15 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+)
 
+
+type Config struct {
+	MONGO_URI string
+	PORT int
+	DB_NAME string
+}
 
 func LoadEnvVars[T any](path string, env *T) error {
 	viper.AddConfigPath(path)

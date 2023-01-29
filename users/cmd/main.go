@@ -1,26 +1,36 @@
 package main
 
 import (
+	"ecom-users/internal/application"
 	"ecom-users/internal/config"
+	"ecom-users/internal/logger"
+	"ecom-users/internal/repository"
+	"ecom-users/internal/server/http"
 	"flag"
 	"fmt"
+	"os"
 )
 
-type EnvVars struct {
-	MONGO_URI string
-	PORT int
-}
-
-
 func main() {
-	var env EnvVars
+	var env config.Config
 	envPath := flag.String("env", "internal", "Path to env file")
-
-	flag.Parse()
 
 	err := config.LoadEnvVars(*envPath, &env)
 	if err != nil {
 		fmt.Println("Env Error")
 		panic(err.Error())
 	}
+
+	logger := logger.New(os.Stdout, logger.LevelInfo)
+	db, err := repository.OpenDB(&env)
+
+	dbModels := repository.NewModels(db)
+
+	app := &application.Application{
+		Logger: logger,
+		Models: dbModels,
+		Config: &env,
+	}
+
+	srv := http.New(app)
 }
