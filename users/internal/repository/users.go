@@ -2,10 +2,12 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UsersModel struct {db *mongo.Collection}
@@ -15,13 +17,9 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 	Firstname string `json:"firstname"`
 	Lastname string `json:"lastname"`
-	Password password `json:"password"`
+	Password Password `json:"password"`
 	Username string `json:"username"`
-}
-
-type password struct {
-	plaintext *string
-	hash []byte
+	Email string `json:"email"`
 }
 
 func (m UsersModel) Insert(user User) error {
@@ -44,4 +42,35 @@ func (m UsersModel) GetByFilter(data map[string]any) (*User, error) {
 	}
 
 	return &user, nil
+}
+
+type Password struct {
+	Plaintext *string
+	Hash []byte
+}
+
+func (p *Password) Set(password string) error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 12)
+	if err != nil {
+		return err
+	}
+
+	p.Plaintext = &password
+	p.Hash = hash
+
+	return nil
+}
+
+func (p *Password) Matches(plaintextPassword string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword(p.Hash, []byte(plaintextPassword))
+	if err != nil {
+		switch {
+		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
+			return false, nil
+		default:
+			return false, err
+		}
+	}
+
+	return true, nil
 }
