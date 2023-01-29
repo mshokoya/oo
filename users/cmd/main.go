@@ -13,7 +13,7 @@ import (
 
 func main() {
 	var env config.Config
-	envPath := flag.String("env", "internal", "Path to env file")
+	envPath := flag.String("env", "env", "Path to env file")
 
 	err := config.LoadEnvVars(*envPath, &env)
 	if err != nil {
@@ -22,15 +22,20 @@ func main() {
 	}
 
 	logger := logger.New(os.Stdout, logger.LevelInfo)
-	db, err := repository.OpenDB(&env)
 
-	dbModels := repository.NewModels(db)
+	db, err := repository.OpenDB(&env)
+	if err != nil {
+		fmt.Println("DB Error")
+		panic(err.Error())
+	}
 
 	app := &application.Application{
 		Logger: logger,
-		Models: dbModels,
+		Models: repository.NewModels(db),
 		Config: &env,
 	}
 
 	srv := http.New(app)
+	srv.Routes(app.Routes())
+	srv.Serve(app)
 }
