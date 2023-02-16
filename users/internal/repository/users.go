@@ -10,7 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type UsersModel struct {db *mongo.Collection}
+
 
 type User struct {
 	ID string `json:"_id"`
@@ -22,6 +22,12 @@ type User struct {
 	Email string `json:"email"`
 }
 
+var UserList = []string{"id", "created_at", "firstname", "lastname", "password", "username", "email"}
+
+var AnonymousUser = &User{}
+
+type UsersModel struct {db *mongo.Collection}
+
 func (m UsersModel) Insert(user User) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -29,12 +35,13 @@ func (m UsersModel) Insert(user User) error {
 	return err
 }
 
-func (m UsersModel) GetByFilter(data map[string]any) (*User, error) {
+func (m UsersModel) GetByID(id string) (*User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	
 	user := User{}
-	filter := bson.M(data)
+
+	filter := bson.M{"_id": id}
 
 	err := m.db.FindOne(ctx, filter).Decode(&user)
 	if err != nil {
@@ -42,6 +49,42 @@ func (m UsersModel) GetByFilter(data map[string]any) (*User, error) {
 	}
 
 	return &user, nil
+}
+
+func (m UsersModel) GetByEmail(email string) (*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	
+	user := User{}
+
+	filter := bson.M{"email": email}
+
+	err := m.db.FindOne(ctx, filter).Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (m UsersModel) Update(user User) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	filter := bson.M{"_id": user.ID}
+
+	update, err := bson.Marshal(user)
+	if err != nil {
+		return err
+	}
+
+	_, err = m.db.UpdateOne(ctx, filter, bson.M{"$set": update});
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 type Password struct {
