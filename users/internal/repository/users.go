@@ -24,6 +24,8 @@ type User struct {
 
 var UserList = []string{"id", "created_at", "firstname", "lastname", "password", "username", "email"}
 
+var AnonymousUser = &User{}
+
 type UsersModel struct {db *mongo.Collection}
 
 func (m UsersModel) Insert(user User) error {
@@ -31,6 +33,22 @@ func (m UsersModel) Insert(user User) error {
 	defer cancel()
 	_, err := m.db.InsertOne(ctx, user)
 	return err
+}
+
+func (m UsersModel) GetByID(id string) (*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	
+	user := User{}
+
+	filter := bson.M{"_id": id}
+
+	err := m.db.FindOne(ctx, filter).Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 func (m UsersModel) GetByEmail(email string) (*User, error) {

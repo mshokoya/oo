@@ -1,6 +1,7 @@
 package application
 
 import (
+	"context"
 	"ecom-users/internal/config"
 	"ecom-users/internal/logger"
 	"ecom-users/internal/repository"
@@ -20,6 +21,24 @@ type Application struct {
 	WG sync.WaitGroup
 }
 
+type contextKey string
+
+const userContextKey = contextKey("user")
+
+func (app *Application) contextSetUser(r *http.Request, user *repository.User) *http.Request {
+	ctx := context.WithValue(r.Context(), userContextKey, user)
+
+	return r.WithContext(ctx)
+}
+
+func (app *Application) contextGetUser(r *http.Request) *repository.User {
+	user, ok := r.Context().Value(userContextKey).(*repository.User)
+	if !ok {
+		panic("missing user value in request context")
+	}
+
+	return user
+}
 
 func (app *Application) Background (fn func()) {
 	app.WG.Add(1)

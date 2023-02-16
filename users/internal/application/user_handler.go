@@ -43,7 +43,7 @@ func (app *Application) RegisterUserHandler(w http.ResponseWriter, r *http.Reque
 	err = app.Models.Users.Insert(*user)
 	if err != nil {
 		switch {
-		case errors.Is(err, ErrDuplicateEmail):
+		case errors.Is(err, repository.ErrDuplicateEmail):
 			app.FailedValidationResponse(w,r,v.Errors)
 		default:
 			app.ServerErrorResponse(w,r,err)

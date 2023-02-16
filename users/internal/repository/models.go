@@ -1,5 +1,8 @@
 package repository
 
+// https://www.mongodb.com/blog/post/quick-start-golang--mongodb--data-aggregation-pipeline
+// https://vidler.app/blog/data/populate-golang-relationship-field-using-mongodb-aggregate-and-lookup/
+
 import (
 	"context"
 	"ecom-users/internal/config"
@@ -12,11 +15,13 @@ import (
 
 type Models struct {
 	Users UsersModel
+	Tokens TokenModel
 }
 
 func NewModels(db *mongo.Database) Models {
 	return Models{
 		Users: UsersModel{db: db.Collection("users")},
+		Tokens: TokenModel{db: db.Collection("tokens")},
 	}
 }
 

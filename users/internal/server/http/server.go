@@ -55,14 +55,14 @@ func (s *HttpServer) Serve(app *application.Application) error {
 		shutdownError <- nil
 	}()
 
-	app.Logger.PrintInfo("starting server", map[string]string{
-		"addr": s.srv.Addr,
-	})
-
 	err := s.srv.ListenAndServe()
 	if !errors.Is(err, http.ErrServerClosed) {
 		return err
 	}
+
+	app.Logger.PrintInfo("starting server", map[string]string{
+		"addr": s.srv.Addr,
+	})
 
 	err = <- shutdownError
 	if err != nil {

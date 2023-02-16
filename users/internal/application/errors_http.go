@@ -14,7 +14,6 @@ func (app *Application) LogError(r *http.Request, err error) {
 	})
 }
 
-
 func (app *Application) ErrorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
 	env := envelope{"error": message}
 
